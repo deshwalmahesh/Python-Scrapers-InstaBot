@@ -75,11 +75,14 @@ def open_random_image(br):
     '''
     open a random image from the initial page of user
     '''
+    time.sleep(random.uniform(2.0,3.0))
     imgs = br.find_elements_by_class_name('_9AhH0')
     imgs[random.randint(0,len(imgs))].click()
+    time.sleep(random.uniform(2,3))
     if 'views' in br.page_source:
-        br.back()
+        br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click()
         open_random_image(br)
+    
     time.sleep(random.uniform(2.5,3.5))
         
 
@@ -151,18 +154,20 @@ def get_names(br,famous_list,):
     open_random_image(br)
     br.find_element_by_xpath('/html/body/div[4]/div[2]/div/article/div[2]/section[2]/div/div/button').click()
     # open the likes list
-    time.sleep(random.uniform(1.1,4.4))
+    time.sleep(random.uniform(2.2,4.4))
     i = 0
-    while i<=500:
-        element_inside_popup = br.find_element_by_xpath('/html/body/div[5]/div/div[2]/div/div/div[4]/div[2]//a')
-        time.sleep(random.uniform(2.2,3.3))
-        element_inside_popup.send_keys(Keys.END)
-        time.sleep(random.uniform(2.4,3.6))
-        likers=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                                              ']")
-        for liker in likers:
-            names.append(liker.text)
-        i+=1
-        print(i,flush=True,end='\r')
+    while i<=50:
+        try:
+            element_inside_popup = br.find_element_by_xpath('/html/body/div[5]/div/div[2]/div/div/div[4]/div[2]//a')
+            time.sleep(random.uniform(2.2,3.3))
+            element_inside_popup.send_keys(Keys.END)
+            time.sleep(random.uniform(2.4,3.6))
+            likers=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                                              ']")
+            for liker in likers:
+                names.append(liker.text)
+            i+=1
+        except:
+            return names
     return names
     
 

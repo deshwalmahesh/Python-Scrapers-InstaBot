@@ -21,8 +21,7 @@ try:
 except:
     None
 
-to_like = insta.read_file('to_like.txt')
-i=0
+
 
             
 
