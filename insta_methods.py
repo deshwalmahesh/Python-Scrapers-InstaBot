@@ -143,11 +143,10 @@ def read_file(filename):
     return names
 
 
-def get_names(br,famous_list,):
+def get_names(br,famous_list,users):
     '''
-    get list of users from a random pic
+    get list of users (likers) from a random pic
     '''
-    names = []
     name = random.choice(famous_list)
     br.get('https://www.instagram.com/'+name+'/')
     time.sleep(random.uniform(2.1,4.9))
@@ -157,17 +156,13 @@ def get_names(br,famous_list,):
     time.sleep(random.uniform(2.2,4.4))
     i = 0
     while i<=50:
-        try:
-            element_inside_popup = br.find_element_by_xpath('/html/body/div[5]/div/div[2]/div/div/div[4]/div[2]//a')
-            time.sleep(random.uniform(2.2,3.3))
-            element_inside_popup.send_keys(Keys.END)
-            time.sleep(random.uniform(2.4,3.6))
-            likers=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                                              ']")
-            for liker in likers:
-                names.append(liker.text)
-            i+=1
-        except:
-            return names
-    return names
+        element_inside_popup = br.find_element_by_xpath('/html/body/div[5]/div/div[2]/div/div/div[4]/div[2]//a')
+        time.sleep(random.uniform(2.2,3.3))
+        element_inside_popup.send_keys(Keys.END)
+        time.sleep(random.uniform(2.4,3.6))
+        likers=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                                              ']")
+        for liker in likers:
+            users.append(liker.text)
+        i+=1
     
 
