@@ -44,12 +44,46 @@ def get_famous():
     return famous
 
 
+def get_posts(br):
+    '''
+    get number of posts by a user
+    '''
+    posts = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[1]/span/span').text
+    posts = posts.replace(',','')
+    return int(posts)
+
+
+def get_followers(br):
+    '''
+    get number of followers of a user
+    '''
+    followers = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span').get_attribute('title')
+    followers = followers.replace(',','')
+    return int(followers)
+
+
+def get_following(br):
+    '''
+    get following of a person
+    '''
+    following = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a/span').text
+    following = following.replace(',','')
+    return int(following)
+
+
+
 def open_random_image(br):
+    '''
+    open a random image from the initial page of user
+    '''
     imgs = br.find_elements_by_class_name('_9AhH0')
     imgs[random.randint(0,len(imgs))].click()
 
 
 def like_image(br,user_name):
+    '''
+    like image IFF it has not been liked already
+    '''
     like_xpath = '/html/body/div[4]/div[2]/div/article/div[2]/section[1]/span[1]/button'
     like_button = br.find_element_by_xpath(like_xpath)
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
@@ -60,6 +94,9 @@ def like_image(br,user_name):
 
 
 def unlike_image(br):
+    '''
+    unlike an image if it has been liked
+    '''
     like_xpath = '/html/body/div[4]/div[2]/div/article/div[2]/section[1]/span[1]/button'
     like_button = br.find_element_by_xpath(like_xpath)
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
