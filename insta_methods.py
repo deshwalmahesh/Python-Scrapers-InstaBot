@@ -71,7 +71,6 @@ def get_following(br):
     return int(following)
 
 
-
 def open_random_image(br):
     '''
     open a random image from the initial page of user
@@ -102,3 +101,27 @@ def unlike_image(br):
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
     if br.find_element_by_css_selector(svg_css).get_attribute('aria-label') == 'Unlike':
         like_button.click()
+
+
+def follow(br,user):
+    '''
+    Follow a user
+    '''
+    br.get('https://www.instagram.com/'+user+'/') # get user page
+    time.sleep(random.uniform(1.98,3.99)) # wait for random time
+    xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
+    br.find_element_by_xpath(xpath).click()
+
+
+
+def unfollow(br,user):
+    '''
+    Unfollow a user
+    '''
+    br.get('https://www.instagram.com/'+user+'/') # get user page
+    time.sleep(random.uniform(1.8,3.9)) # wait for random time
+    xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[2]/span/span[1]/button'
+    br.find_element_by_xpath(xpath).click() # clik on first button
+    time.sleep(random.uniform(1.1,2.7)) # beat the bot checker
+    confirm_xpath = '/html/body/div[4]/div/div/div[3]/button[1]'
+    br.find_element_by_xpath(confirm_xpath).click() # click on unfollow
