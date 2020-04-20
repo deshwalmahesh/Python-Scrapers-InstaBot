@@ -77,6 +77,11 @@ def open_random_image(br):
     '''
     imgs = br.find_elements_by_class_name('_9AhH0')
     imgs[random.randint(0,len(imgs))].click()
+    if 'views' in br.page_source:
+        br.back()
+        open_random_image(br)
+    time.sleep(random.uniform(2.5,3.5))
+        
 
 
 def like_image(br,user_name):
@@ -113,7 +118,6 @@ def follow(br,user):
     br.find_element_by_xpath(xpath).click()
 
 
-
 def unfollow(br,user):
     '''
     Unfollow a user
@@ -125,3 +129,40 @@ def unfollow(br,user):
     time.sleep(random.uniform(1.1,2.7)) # beat the bot checker
     confirm_xpath = '/html/body/div[4]/div/div/div[3]/button[1]'
     br.find_element_by_xpath(confirm_xpath).click() # click on unfollow
+
+
+def read_file(filename):
+    '''
+    read a file to get list of names
+    '''
+    with open(filename) as f:
+        names=f.read().splitlines()
+    return names
+
+
+def get_names(br,famous_list,):
+    '''
+    get list of users from a random pic
+    '''
+    names = []
+    name = random.choice(famous_list)
+    br.get('https://www.instagram.com/'+name+'/')
+    time.sleep(random.uniform(2.1,4.9))
+    open_random_image(br)
+    br.find_element_by_xpath('/html/body/div[4]/div[2]/div/article/div[2]/section[2]/div/div/button').click()
+    # open the likes list
+    time.sleep(random.uniform(1.1,4.4))
+    i = 0
+    while i<=500:
+        element_inside_popup = br.find_element_by_xpath('/html/body/div[5]/div/div[2]/div/div/div[4]/div[2]//a')
+        time.sleep(random.uniform(2.2,3.3))
+        element_inside_popup.send_keys(Keys.END)
+        time.sleep(random.uniform(2.4,3.6))
+        likers=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                                              ']")
+        for liker in likers:
+            names.append(liker.text)
+        i+=1
+        print(i,flush=True,end='\r')
+    return names
+    
+
