@@ -174,3 +174,22 @@ def get_names(br,famous_list,users):
         i+=1
     
 
+def search(br,user):
+    '''
+    search a user and return if successful or not
+    '''
+    # activate search box
+    br.find_element_by_xpath("//div[@role='button'][@class='pbgfb Di7vw ']").click()
+    # input the text
+    search_box = br.find_element_by_xpath("//input[@type='text'][@placeholder='Search']")
+    search_box.clear() 
+    search_box.send_keys(user)
+    time.sleep(random.uniform(1.9,2.5))
+    if("No results found" in br.page_source):
+        br.find_element_by_xpath("//div[@role='button'][@class='aIYm8 coreSpriteSearchClear']").click()
+        # close search bar
+        return (False)
+    else:
+        search_box.send_keys(Keys.ENTER,Keys.ENTER)
+        time.sleep(random.uniform(2.3,4.4))
+        return(True)
