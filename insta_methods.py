@@ -18,7 +18,7 @@ def create_session():
     br=webdriver.Chrome()
     url = 'https://www.instagram.com/accounts/login/'
     br.get(url)
-    time.sleep(random.uniform(2.4,4.6))
+    time.sleep(random.uniform(2.8,4.6))
     return br
 
 
@@ -28,6 +28,7 @@ def login(br):
     time.sleep(random.uniform(1.1,2.4))
     br.find_element_by_name('password').send_keys(password.strip(),Keys.ENTER)
     time.sleep(random.uniform(2.4,3.1))
+    return br
 
 
 def remove_dialog(br):
@@ -39,6 +40,7 @@ def remove_dialog(br):
                 break
     except:
         None
+    return br
 
 
 def get_posts(br):
@@ -54,7 +56,7 @@ def get_followers(br):
     '''
     get number of followers of a user
     '''
-    followers = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span').get_attribute('title')
+    followers = br.find_elements_by_xpath("//span[@class='g47SY lOXF2']")[1].get_attribute('title')
     followers = followers.replace(',','')
     return int(followers)
 
@@ -81,6 +83,7 @@ def open_random_image(br):
         open_random_image(br)
     
     time.sleep(random.uniform(2.5,3.5))
+    return br
         
 
 
@@ -93,6 +96,9 @@ def like_image(br):
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
     if br.find_element_by_css_selector(svg_css).get_attribute('aria-label') == 'Like':
         like_button.click()
+    
+    time.sleep(random.uniform(2.5,4.5))
+    return br
 
 
 def unlike_image(br):
@@ -116,6 +122,7 @@ def follow(br,user=False):
 
     xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
     br.find_element_by_xpath(xpath).click()
+    return br
 
 
 def unfollow(br,user=False):
@@ -196,8 +203,9 @@ def search(br,user):
     if("No results found" in br.page_source):
         br.find_element_by_xpath("//div[@role='button'][@class='aIYm8 coreSpriteSearchClear']").click()
         # close search bar
-        return (False)
+        time.sleep(random.uniform(1.5,2.4))
+        return (br,False)
     else:
         search_box.send_keys(Keys.ENTER,Keys.ENTER)
-        time.sleep(random.uniform(2.3,4.4))
-        return(True)
+        time.sleep(random.uniform(3.3,5.4))
+        return(br,True)

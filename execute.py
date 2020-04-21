@@ -21,13 +21,16 @@ while True:
     followed = insta.read_file('followed.txt')
 
     try:
+        br.get('https://www.instagram.com/')
+        time.sleep(random.uniform(3.0,5.0))
+
         if len(to_like) == 0:
             # if user to connect is empty, get users from famous and save in file just in case it crashes
             insta.get_names(br,famous,to_like)
             insta.overwrite_file('to_like.txt',to_like)
 
         for i,user in enumerate(to_like[:]):
-            success = insta.search(br,user)
+            br,success = insta.search(br,user)
             if not success:
                 to_like.remove(user)
                 continue
@@ -35,10 +38,10 @@ while True:
                 posts = insta.get_posts(br)
                 followers = insta.get_followers(br)
 
-                if 'is Private' in br.page_source:
+                if 'Private' in br.page_source:
                     # if account is private: wait long, follow, update files and remove from list
                     time.sleep(random.uniform(24.24,57.05))
-                    insta.follow(br)
+                    br = insta.follow(br)
 
                     private.append(user)
                     insta.append_to_file('private.txt',user)
@@ -50,8 +53,8 @@ while True:
 
                 else:
                     # for open account, like, append to list and files and remove
-                    insta.open_random_image(br)
-                    insta.like_image(br)
+                    br = insta.open_random_image(br)
+                    br = insta.like_image(br)
 
                     liked.append(user)
                     insta.append_to_file('liked.txt',user)
@@ -63,20 +66,11 @@ while True:
 
                     to_like.remove(user)
 
-    except:
+    except Exception as e:
         # if an error occurs, update to_like 
+        print(e)
         new = []
         for user in to_like:
-            if (user not in liked) and (user not in followed) and (user not in private):
+            if (user not in liked) and (user not in followed) and (user not in private) and (len(user)>2):
                 new.append(user)
         insta.overwrite_file('to_like.txt',new)
-
-
-
-
-
-            
-
-
-
-
