@@ -56,7 +56,7 @@ def get_followers(br):
     '''
     get number of followers of a user
     '''
-    followers = br.find_elements_by_xpath("//span[@class='g47SY lOXF2']")[1].get_attribute('title')
+    followers = br.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/ul/li[2]/a/span').get_attribute('title')
     followers = followers.replace(',','')
     return int(followers)
 
@@ -65,7 +65,12 @@ def get_following(br):
     '''
     get following of a person
     '''
-    following = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a/span').text
+    main = br.find_element_by_tag_name('main')
+    div = main.find_element_by_tag_name('div')
+    ul = div.find_element_by_tag_name('ul')
+    li = ul.find_elements_by_tag_name('li')
+    span = li[1].find_element_by_tag_name('span')
+    following = span.get_attribute('title')
     following = following.replace(',','')
     return int(following)
 
@@ -119,9 +124,7 @@ def follow(br,user=False):
     if user:
         br.get('https://www.instagram.com/'+user+'/') # get user page
         time.sleep(random.uniform(1.98,3.99)) # wait for random time
-
-    xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
-    br.find_element_by_xpath(xpath).click()
+    br.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button').click()
     return br
 
 
