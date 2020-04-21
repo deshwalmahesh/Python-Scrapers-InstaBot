@@ -84,7 +84,7 @@ def open_random_image(br):
         
 
 
-def like_image(br,user_name):
+def like_image(br):
     '''
     like image IFF it has not been liked already
     '''
@@ -93,8 +93,6 @@ def like_image(br,user_name):
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
     if br.find_element_by_css_selector(svg_css).get_attribute('aria-label') == 'Like':
         like_button.click()
-        with open ('liked.txt','a') as f:
-            f.write('%s\n'%user_name)
 
 
 def unlike_image(br):
@@ -108,22 +106,26 @@ def unlike_image(br):
         like_button.click()
 
 
-def follow(br,user):
+def follow(br,user=False):
     '''
-    Follow a user
+    Follow a user is user is given or the browser is at the page itself
     '''
-    br.get('https://www.instagram.com/'+user+'/') # get user page
-    time.sleep(random.uniform(1.98,3.99)) # wait for random time
+    if user:
+        br.get('https://www.instagram.com/'+user+'/') # get user page
+        time.sleep(random.uniform(1.98,3.99)) # wait for random time
+
     xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
     br.find_element_by_xpath(xpath).click()
 
 
-def unfollow(br,user):
+def unfollow(br,user=False):
     '''
-    Unfollow a user
+    Unfollow a user given username or the current page of user
     '''
-    br.get('https://www.instagram.com/'+user+'/') # get user page
-    time.sleep(random.uniform(1.8,3.9)) # wait for random time
+    if user:
+        br.get('https://www.instagram.com/'+user+'/') # get user page
+        time.sleep(random.uniform(1.8,3.9)) # wait for random time
+
     xpath = '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[2]/span/span[1]/button'
     br.find_element_by_xpath(xpath).click() # clik on first button
     time.sleep(random.uniform(1.1,2.7)) # beat the bot checker
@@ -140,12 +142,18 @@ def read_file(filename):
     return names
 
 
-def append_to_file(filename,user_id):
+def append_to_file(filename,user):
+    '''
+    add user name to file
+    '''
     with open (filename,'a') as f:
-        f.write('%s\n'%user_id)
+        f.write('%s\n'%user)
 
 
 def overwrite_file(filename,my_list):
+    '''
+    overwrite a file using a list
+    '''
     with open(filename, 'w') as f:
         for item in my_list:
             f.write("%s\n" % item)
