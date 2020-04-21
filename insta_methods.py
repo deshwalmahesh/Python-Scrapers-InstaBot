@@ -52,19 +52,19 @@ def get_posts(br):
     return int(posts)
 
 
-def get_followers(br):
+def get_followers(br,private=False):
     '''
     get number of followers of a user
     '''
     '''
     get following of a person
     '''
-    main = br.find_element_by_tag_name('main')
-    div = main.find_element_by_tag_name('div')
-    ul = div.find_element_by_tag_name('ul')
-    li = ul.find_elements_by_tag_name('li')
-    span = li[1].find_elements_by_tag_name('span')
-    followers = span[1].get_attribute('title')
+    if private:
+        xpath = '/html/body/div[1]/section/main/div/header/section/ul/li[2]/span/span'
+    else:
+        xpath = '/html/body/div[1]/section/main/div/header/section/ul/li[2]/a/span'
+    
+    followers = br.find_element_by_xpath(xpath).get_attribute('title')
     followers = followers.replace(',','')
     return int(followers)
 
@@ -79,7 +79,7 @@ def open_random_image(br):
     imgs[random.randint(0,len(imgs))].click()
     time.sleep(random.uniform(2,3))
     if 'views' in br.page_source:
-        br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click()
+        br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click() # close image
         open_random_image(br)
     
     time.sleep(random.uniform(2.5,3.5))
@@ -95,8 +95,10 @@ def like_image(br):
     like_button = br.find_element_by_xpath(like_xpath)
     svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
     if br.find_element_by_css_selector(svg_css).get_attribute('aria-label') == 'Like':
-        like_button.click()
+        like_button.click() # click heart
     
+    time.sleep(random.uniform(1.0,2.0))
+    br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click() # close image
     time.sleep(random.uniform(2.5,4.5))
     return br
 
@@ -112,14 +114,20 @@ def unlike_image(br):
         like_button.click()
 
 
-def follow(br,user=False):
+def follow(br,user=False,private=True):
     '''
     Follow a user is user is given or the browser is at the page itself
     '''
     if user:
         br.get('https://www.instagram.com/'+user+'/') # get user page
         time.sleep(random.uniform(1.98,3.99)) # wait for random time
-    br.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button').click()
+    if private:
+        xpath = '/html/body/div[1]/section/main/div/header/section/div[1]/button'
+        if 'Requested' not in br.page_source: # if not already requested
+            br.find_element_by_xpath(xpath).click()
+    else:
+        xpath = '/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
+        br.find_element_by_xpath(xpath).click()
     return br
 
 
