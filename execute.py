@@ -36,7 +36,7 @@ while True:
                 continue
             else:
                 posts = insta.get_posts(br)
-                followers = insta.get_followers(br)
+                # followers = insta.get_followers(br)
 
                 if 'Private' in br.page_source:
                     # if account is private: wait long, follow, update files and remove from list
@@ -59,10 +59,10 @@ while True:
                     liked.append(user)
                     insta.append_to_file('liked.txt',user)
 
-                    if followers > 2000:
-                        if user not in famous:
-                            famous.append(user)
-                            insta.append_to_file('famous.txt',user)
+                    # if followers > 2000:
+                        # if user not in famous:
+                            # famous.append(user)
+                            # insta.append_to_file('famous.txt',user)
 
                     to_like.remove(user)
 
