@@ -18,30 +18,27 @@ def create_session():
     br=webdriver.Chrome()
     url = 'https://www.instagram.com/accounts/login/'
     br.get(url)
+    time.sleep(random.uniform(2.4,4.6))
     return br
 
 
 def login(br):
-    with open('user_pass.txt','r')as f:
-        user,password = f.readlines()
-
+    user,password = read_file('user_pass.txt')
     br.find_element_by_name('username').send_keys(user.strip())
-    time.sleep(1.2)
+    time.sleep(random.uniform(1.1,2.4))
     br.find_element_by_name('password').send_keys(password.strip(),Keys.ENTER)
+    time.sleep(random.uniform(2.4,3.1))
 
 
 def remove_dialog(br):
-    noti = br.find_elements_by_tag_name('button')
-    for button in noti:
-        if button.text == 'Not Now':
-            button.click()
-            break
-
-
-def get_famous():
-    with open('famous.txt','r') as f:
-        famous = f.read().splitlines()
-    return famous
+    try:
+        noti = br.find_elements_by_tag_name('button')
+        for button in noti:
+            if button.text == 'Not Now':
+                button.click()
+                break
+    except:
+        None
 
 
 def get_posts(br):
@@ -141,6 +138,17 @@ def read_file(filename):
     with open(filename) as f:
         names=f.read().splitlines()
     return names
+
+
+def append_to_file(filename,user_id):
+    with open (filename,'a') as f:
+        f.write('%s\n'%user_id)
+
+
+def overwrite_file(filename,my_list):
+    with open(filename, 'w') as f:
+        for item in my_list:
+            f.write("%s\n" % item)
 
 
 def get_names(br,famous_list,users):
