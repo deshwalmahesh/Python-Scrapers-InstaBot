@@ -37,6 +37,7 @@ while True:
             else:
                 posts = insta.get_posts(br)
                 followers = insta.get_followers(br)
+                print(followers)
 
                 if 'Private' in br.page_source:
                     # if account is private: wait long, follow, update files and remove from list

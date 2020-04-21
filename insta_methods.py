@@ -56,12 +56,6 @@ def get_followers(br):
     '''
     get number of followers of a user
     '''
-    followers = br.find_element_by_xpath('/html/body/div[1]/section/main/div/header/section/ul/li[2]/a/span').get_attribute('title')
-    followers = followers.replace(',','')
-    return int(followers)
-
-
-def get_following(br):
     '''
     get following of a person
     '''
@@ -69,10 +63,11 @@ def get_following(br):
     div = main.find_element_by_tag_name('div')
     ul = div.find_element_by_tag_name('ul')
     li = ul.find_elements_by_tag_name('li')
-    span = li[1].find_element_by_tag_name('span')
-    following = span.get_attribute('title')
-    following = following.replace(',','')
-    return int(following)
+    span = li[1].find_elements_by_tag_name('span')
+    followers = span[1].get_attribute('title')
+    followers = followers.replace(',','')
+    return int(followers)
+
 
 
 def open_random_image(br):
