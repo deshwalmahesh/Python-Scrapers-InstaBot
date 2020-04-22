@@ -91,12 +91,8 @@ def like_image(br):
     '''
     like image IFF it has not been liked already
     '''
-    like_xpath = '/html/body/div[4]/div[2]/div/article/div[2]/section[1]/span[1]/button'
-    like_button = br.find_element_by_xpath(like_xpath)
-    svg_css = 'body > div._2dDPU.CkGkG > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.FY9nT.fr66n > button > svg'
-    if br.find_element_by_css_selector(svg_css).get_attribute('aria-label') == 'Like':
-        like_button.click() # click heart
-    
+    time.sleep(random.uniform(1.5,2.5))
+    br.find_element_by_xpath('/html/body/div[4]/div[2]/div/article/div[2]/section[1]/span[1]/button').click()# click heart
     time.sleep(random.uniform(1.0,2.0))
     br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click() # close image
     time.sleep(random.uniform(2.5,4.5))

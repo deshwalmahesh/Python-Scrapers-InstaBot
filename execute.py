@@ -37,7 +37,8 @@ while True:
             else:
                 posts = insta.get_posts(br)
 
-                if 'Private' in br.page_source:
+                if 'This Account is Private' in br.page_source:
+                    print('private profile')
                     # if account is private: wait long, follow, update files and remove from list
                     time.sleep(random.uniform(24.24,57.05))
                     br = insta.follow(br)
@@ -51,16 +52,21 @@ while True:
                     to_like.remove(user)
 
                 else:
+                    print('public profile')
                     # for open account, like, append to list and files and remove
                     br = insta.open_random_image(br)
+                    print('image opened, liking')
                     br = insta.like_image(br)
 
                     liked.append(user)
                     insta.append_to_file('liked.txt',user)
                     
+                    print('getting followers')
                     followers = insta.get_followers(br)
-                    
+                    print(followers)
+
                     if followers > 2000:
+                        print('user is famous')
                         if user not in famous:
                             famous.append(user)
                             insta.append_to_file('famous.txt',user)
