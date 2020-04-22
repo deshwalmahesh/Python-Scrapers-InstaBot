@@ -28,7 +28,6 @@ def login(br):
     time.sleep(random.uniform(1.1,2.4))
     br.find_element_by_name('password').send_keys(password.strip(),Keys.ENTER)
     time.sleep(random.uniform(2.4,3.1))
-    return br
 
 
 def remove_dialog(br):
@@ -40,7 +39,6 @@ def remove_dialog(br):
                 break
     except:
         None
-    return br
 
 
 def get_posts(br):
@@ -83,7 +81,6 @@ def open_random_image(br):
         open_random_image(br)
     
     time.sleep(random.uniform(2.5,3.5))
-    return br
         
 
 
@@ -96,7 +93,6 @@ def like_image(br):
     time.sleep(random.uniform(1.0,2.0))
     br.find_element_by_xpath('/html/body/div[4]/div[3]/button').click() # close image
     time.sleep(random.uniform(2.5,4.5))
-    return br
 
 
 def unlike_image(br):
@@ -124,7 +120,7 @@ def follow(br,user=False,private=True):
     else:
         xpath = '/html/body/div[1]/section/main/div/header/section/div[1]/div[1]/span/span[1]/button'
         br.find_element_by_xpath(xpath).click()
-    return br
+    time.sleep(random.uniform(1.65,2.34))
 
 
 def unfollow(br,user=False):

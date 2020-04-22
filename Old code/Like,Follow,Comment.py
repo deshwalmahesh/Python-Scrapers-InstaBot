@@ -1,10 +1,4 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-import time
-import random
-from random import randint
-import os
+
 
 subject=['sc_web','supervinay','indiangymlegend','akshat_xesthetix','gym_fitness.idol','gauravarora55','jattmehkma','deeply.shredded','hazzelchoudhary','sandeep.xav','vikas_rt','real.bodybuilders','58vikash','the.ashu','monty_lohia','rahulchauhan26','sandeep.xav','rehan_mandaviya','dpanshu_narwal','mayank_sharma144','gauravmolri','faraaz_zs','sagarmidda','im_rahulsharmaa','musclemechanix','vasumittal','vinay_0610','_indianmen_','harish_rehman','vaibhav_63fitness']
 
@@ -18,7 +12,7 @@ def get_list():
     time.sleep(2)
        
     while len(element)<150:
-            element=br.find_elements_by_xpath("//*[@class='_9mmn5']")
+            element=br.find_elements_by_xpath("//*[@class='                   Igw0E   rBNOH        eGOV_     ybXk5    _4EzTm                                                                                   XfCBB          HVWg4                 ']")
             i=len(element)-1
             element[i].click()
             time.sleep(1.50)
@@ -56,7 +50,7 @@ def update_file():
     return(main_list,private_acc,liked_list,commented,followed)
 
 def search(x):
-    search_box=br.find_element_by_xpath("//input[@type='text']")
+    search_box=br.find_element_by_xpath("//input[@class='pbgfb Di7vw ']")
     search_box.clear() 
     search_box.send_keys(str(x))
     time.sleep(sleeping)
@@ -117,12 +111,7 @@ def change_ip():
     time.sleep(3)
     return()
 
-br=webdriver.Chrome()
-br.get('https://www.instagram.com/accounts/login/')
-time.sleep(3)
-br.find_element_by_name('username').send_keys('*******')
-br.find_element_by_name('password').send_keys('******',Keys.ENTER)
-time.sleep(3)
+
 like_count=0
 
 while True:

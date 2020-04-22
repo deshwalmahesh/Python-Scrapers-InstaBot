@@ -33,15 +33,18 @@ while True:
             br,success = insta.search(br,user)
             if not success:
                 to_like.remove(user)
+                print('No User Found','\n','*'*25)
                 continue
             else:
+                print('Search Successful')
                 posts = insta.get_posts(br)
 
                 if 'This Account is Private' in br.page_source:
-                    print('private profile')
+                    print('Private profile')
                     # if account is private: wait long, follow, update files and remove from list
                     time.sleep(random.uniform(24.24,57.05))
-                    br = insta.follow(br)
+                    insta.follow(br)
+                    print('Followed')
 
                     private.append(user)
                     insta.append_to_file('private.txt',user)
@@ -50,32 +53,36 @@ while True:
                     insta.append_to_file('followed.txt',user)
 
                     to_like.remove(user)
+                    print('_'*30)
 
                 else:
-                    print('public profile')
+                    print('Public Profile')
                     # for open account, like, append to list and files and remove
-                    br = insta.open_random_image(br)
-                    print('image opened, liking')
-                    br = insta.like_image(br)
-
+                    insta.open_random_image(br)
+                    print('Image opened')
+                    insta.like_image(br)
+                    print('Image Liked')
                     liked.append(user)
                     insta.append_to_file('liked.txt',user)
                     
-                    print('getting followers')
+                    print('Getting Followers')
                     followers = insta.get_followers(br)
                     print(followers)
 
                     if followers > 2000:
-                        print('user is famous')
+                        print('User is famous')
                         if user not in famous:
                             famous.append(user)
                             insta.append_to_file('famous.txt',user)
 
                     to_like.remove(user)
+                    print('-'*25)
+
+            time.sleep(random.uniform(60.60,240.24)) # to avoid bot detection, randomly sleep for 1-4 minutes
 
     except Exception as e:
         # if an error occurs, update to_like 
-        print(e)
+        print(f"Error: '\n {'+'*30} \n {e} \n {'+'*30}")
         new = []
         for user in to_like:
             if (user not in liked) and (user not in followed) and (user not in private) and (len(user)>2):
